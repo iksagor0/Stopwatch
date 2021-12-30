@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #wrapper {
+            margin: 0 auto;
+            display: block;
+            width: 450px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+        }
+
+        h1.header {
+            text-align: center;
+            margin: 5px;
+
+        }
+
+        .outer {
+            width: 100%;
+            height: 150px;
+            background: rgb(116, 116, 116);
+            position: relative;
+        }
+
+        .inner {
+            width: 80%;
+            height: 100px;
+            background: #000000;
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+        }
+
+        .display {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+        }
+
+        #time {
+            color: #fff;
+            text-align: center;
+            display: inline-block;
+        }
+
+        #time span {
+            font-weight: 900;
+            font-size: 30px;
+        }
+
+        small {
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        .buttons button {
+            padding: 5px 20px;
+            margin: 10px;
+        }
+
+        .buttons button:active {
+            transform: scale(.9);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1 class="header">Stopwatch</h1>
+        <div class="outer">
+            <div class="inner">
+                <div class="display">
+                    <h1 id="time">
+                        <span class="hour">00</span> :
+                        <span class="min">00</span> :
+                        <span class="sec">00</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="start">Start</button>
+            <button class="pause">Pause</button>
+            <button class="stop">Stop</button>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        const hour = document.querySelector('.hour');
+        const min = document.querySelector('.min');
+        const sec = document.querySelector('.sec');
+        const startBtn = document.querySelector('.start');
+        const pauseBtn = document.querySelector('.pause');
+        const stopBtn = document.querySelector('.stop');
+
+        let secCounter = 0;
+        let minCounter = 0;
+        let hourCounter = 0;
+        let counter;
+        let status = true;
+
+        // START FUNC
+        const start = () => {
+            status = false;
+            counter = setInterval(() => {
+                secCounter++
+                if (secCounter < 10) {
+                    secCounter = "0" + secCounter;
+                }
+
+                if (secCounter === 60) {
+                    secCounter = 0;
+                    minCounter++
+
+                    if (minCounter === 60) {
+                        minCounter = 0;
+                        hourCounter++;
+                        if (hourCounter < 10) {
+                            hourCounter = "0" + hourCounter;
+                        }
+                        hour.innerText = hourCounter;
+                    }
+
+                    if (minCounter < 10) {
+                        minCounter = "0" + minCounter;
+                    }
+                    min.innerText = minCounter;
+
+                }
+
+                sec.innerText = secCounter;
+            }, 1000);
+        }
+
+
+        // PAUSE FUNC
+        const pause = () => {
+            clearInterval(counter)
+            status= true;
+        }
+        
+        // STOP FUNC
+        const stop = () => {
+            clearInterval(counter)
+            secCounter = 0;
+            minCounter = 0;
+            hourCounter = 0;
+            hour.innerText = "00";
+            min.innerText = "00";
+            sec.innerText = "00";
+            status= true;
+        }
+
+
+        startBtn.addEventListener('click', ()=>{
+            if (status) {
+                start();
+            }
+        });
+        pauseBtn.addEventListener('click', pause);
+        stopBtn.addEventListener('click', stop);
+    </script>
+    <script src="no-need.js"></script>
+</body>
+
+</html>
