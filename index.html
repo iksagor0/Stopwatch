@@ -107,9 +107,9 @@
             <div class="inner">
                 <div class="display">
                     <h1 id="time">
-                        <span class="hour">00</span> :
                         <span class="min">00</span> :
-                        <span class="sec">00</span>
+                        <span class="sec">00</span> :
+                        <span class="msec">00</span>
                     </h1>
                 </div>
             </div>
@@ -125,16 +125,16 @@
 
 
     <script>
-        const hour = document.querySelector('.hour');
         const min = document.querySelector('.min');
         const sec = document.querySelector('.sec');
+        const msec = document.querySelector('.msec');
         const startBtn = document.querySelector('.start');
         const pauseBtn = document.querySelector('.pause');
         const stopBtn = document.querySelector('.stop');
 
+        let msecCounter = 0;
         let secCounter = 0;
         let minCounter = 0;
-        let hourCounter = 0;
         let counter;
         let status = true;
 
@@ -142,33 +142,33 @@
         const start = () => {
             status = false;
             counter = setInterval(() => {
-                secCounter++
-                if (secCounter < 10) {
-                    secCounter = "0" + secCounter;
+                msecCounter++
+                if (msecCounter < 10) {
+                    msecCounter = "0" + msecCounter;
                 }
 
-                if (secCounter === 60) {
-                    secCounter = 0;
-                    minCounter++
+                if (msecCounter === 100) {
+                    msecCounter = 0;
+                    secCounter++
 
-                    if (minCounter === 60) {
-                        minCounter = 0;
-                        hourCounter++;
-                        if (hourCounter < 10) {
-                            hourCounter = "0" + hourCounter;
+                    if (secCounter === 60) {
+                        secCounter = 0;
+                        minCounter++;
+                        if (minCounter < 10) {
+                            minCounter = "0" + minCounter;
                         }
-                        hour.innerText = hourCounter;
+                        min.innerText = minCounter;
                     }
 
-                    if (minCounter < 10) {
-                        minCounter = "0" + minCounter;
+                    if (secCounter < 10) {
+                        secCounter = "0" + secCounter;
                     }
-                    min.innerText = minCounter;
+                    sec.innerText = secCounter;
 
                 }
 
-                sec.innerText = secCounter;
-            }, 1000);
+                msec.innerText = msecCounter;
+            }, 10);
         }
 
 
@@ -181,12 +181,12 @@
         // STOP FUNC
         const stop = () => {
             clearInterval(counter)
+            msecCounter = 0;
             secCounter = 0;
             minCounter = 0;
-            hourCounter = 0;
-            hour.innerText = "00";
             min.innerText = "00";
             sec.innerText = "00";
+            msec.innerText = "00";
             status= true;
         }
 
